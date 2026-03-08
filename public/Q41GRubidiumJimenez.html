@@ -1,324 +1,202 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Q4 Graded Exercise</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarter 4 Movie Tracker</title>
+    <style>
+        /* CSS for a clean, presentable layout with a touch of blue */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-<style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(-45deg, #d896ff, #ffb6e6, #cba6ff, #ffc2f2);
-    background-size: 400% 400%;
-    animation: gradientMove 15s ease infinite;
-    overflow-x: hidden;
-    min-height: 100vh;
-}
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            border-top: 5px solid #007bff;
+        }
 
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+        h2 { color: #0056b3; margin-top: 0; }
 
-/* Floating Blobs */
-.blob {
-    position: fixed;
-    border-radius: 50%;
-    opacity: 0.25;
-    animation: blobFloat 25s ease-in-out infinite;
-    z-index: 0;
-}
+        .form-group { margin-bottom: 15px; }
+        
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
 
-.blob1 {
-    width: 300px;
-    height: 300px;
-    background: #ffffff;
-    top: -100px;
-    left: -100px;
-}
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-.blob2 {
-    width: 250px;
-    height: 250px;
-    background: #ffe4fa;
-    bottom: -80px;
-    right: -80px;
-    animation-duration: 30s;
-}
+        /* Star Rating Styles */
+        .star-rating {
+            direction: rtl;
+            display: inline-block;
+            padding: 10px 0;
+        }
 
-@keyframes blobFloat {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(60px); }
-    100% { transform: translateY(0px); }
-}
+        .star-rating input { display: none; }
 
-/* Sparkles */
-.sparkle {
-    position: fixed;
-    bottom: -20px;
-    width: 6px;
-    height: 6px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.6;
-    animation: floatUp linear infinite;
-    z-index: 0;
-}
+        .star-rating label {
+            color: #ccc;
+            font-size: 2rem;
+            padding: 0 2px;
+            cursor: pointer;
+            transition: color 0.2s;
+            display: inline-block;
+        }
 
-@keyframes floatUp {
-    0% { transform: translateY(0); opacity: 0.6; }
-    100% { transform: translateY(-110vh); opacity: 0; }
-}
+        /* Changes stars to yellow when selected or hovered */
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label {
+            color: #f39c12;
+        }
 
-.container {
-    position: relative;
-    z-index: 1;
-    background: rgba(255,255,255,0.95);
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+        }
 
-h2 {
-    color: #7c3aed;
-}
+        button:hover { background-color: #0056b3; }
 
-input, select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 10px;
-    border: 1px solid #d8b4fe;
-    margin-top: 5px;
-    max-height: 200px;
-}
+        /* Movie List Styles */
+        #movieList {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 500px;
+        }
 
-input:focus, select:focus {
-    outline: none;
-    box-shadow: 0 0 6px #c084fc;
-}
+        .movie-card {
+            background: #fff;
+            border-left: 5px solid #f39c12;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
 
-button {
-    background: linear-gradient(45deg, #a855f7, #ec4899);
-    border: none;
-    padding: 8px 15px;
-    color: white;
-    border-radius: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-button:hover {
-    transform: scale(1.05);
-}
-
-/* ⭐ Advanced Star Styling */
-.star {
-    width: 40px;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-.star path {
-    fill: #e5e5e5;
-    transition: fill 0.3s ease, filter 0.3s ease;
-}
-
-.star.hovered path,
-.star.selected path {
-    fill: gold;
-    filter: drop-shadow(0 0 8px gold);
-}
-
-.star:hover {
-    transform: scale(1.2) rotate(-6deg);
-}
-
-.movie-card {
-    background: #fdf4ff;
-    border-left: 5px solid #a855f7;
-    padding: 12px;
-    margin-top: 12px;
-    border-radius: 12px;
-    animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-</style>
+        .rated-stars { color: #f39c12; }
+    </style>
 </head>
-
 <body>
 
-<div class="blob blob1"></div>
-<div class="blob blob2"></div>
+    <div class="container">
+        <h2>Add New Movie</h2>
+        <form id="movieForm">
+            <div class="form-group">
+                <label for="title">Movie Title:</label>
+                <input type="text" id="title" required placeholder="e.g. Wicked">
+            </div>
 
-<script>
-for (let i = 0; i < 25; i++) {
-    const sparkle = document.createElement("div");
-    sparkle.className = "sparkle";
-    sparkle.style.left = Math.random() * 100 + "vw";
-    sparkle.style.animationDuration = (8 + Math.random() * 6) + "s";
-    sparkle.style.opacity = Math.random();
-    document.body.appendChild(sparkle);
-}
-</script>
+            <div class="form-group">
+                <label for="genre">Genre:</label>
+                <select id="genre" required>
+                    <option value="">--Select Genre--</option>
+                    <option value="Musical">Musical</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Animation">Animation</option>
+                    <option value="Historical">Historical</option>
+                </select>
+            </div>
 
-<div class="container">
+            <div class="form-group">
+                <label>Rating:</label>
+                <div class="star-rating">
+                    <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+                    <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+                    <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+                    <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+                    <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
 
-<h2>Add Movie</h2>
+                </div>
+                <button type ="submit">Add Movie to List</button>
 
-<form id="movieForm">
-    <label>Title:</label><br>
-    <input type="text" id="title" required><br><br>
-
-    <label>Genre:</label><br>
-    <select id="genre">
-        <option>Action</option>
-        <option>Adventure</option>
-        <option>Animation</option>
-        <option>Biography</option>
-        <option>Comedy</option>
-        <option>Crime</option>
-        <option>Documentary</option>
-        <option>Drama</option>
-        <option>Family</option>
-        <option>Fantasy</option>
-        <option>Historical</option>
-        <option>Horror</option>
-        <option>Kids</option>
-        <option>Musical</option>
-        <option>Mystery</option>
-        <option>Psychological</option>
-        <option>Romance</option>
-        <option>Sci-Fi</option>
-        <option>Sports</option>
-        <option>Superhero</option>
-        <option>Thriller</option>
-        <option>War</option>
-        <option>Western</option>
-        <option>Slapstick</option>
-        <option>Feel-Good</option>
-        <option>Indie</option>
-        <option>Noir</option>
-        <option>Coming-of-Age</option>
-        <option>Satire</option>
-        <option>Parody</option>
-        <option>Dark Comedy</option>
-        <option>Rom-Com</option>
-        <option>Disaster</option>
-        <option>Apocalyptic</option>
-        <option>Cyberpunk</option>
-        <option>Martial Arts</option>
-        <option>Survival</option>
-        <option>Epic</option>
-    </select><br><br>
-
-    <label>Rating:</label><br>
-    <div id="starContainer">
-        <svg class="star" data-value="1" viewBox="0 0 24 24">
-            <path d="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z"/>
-        </svg>
-        <svg class="star" data-value="2" viewBox="0 0 24 24">
-            <path d="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z"/>
-        </svg>
-        <svg class="star" data-value="3" viewBox="0 0 24 24">
-            <path d="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z"/>
-        </svg>
-        <svg class="star" data-value="4" viewBox="0 0 24 24">
-            <path d="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z"/>
-        </svg>
-        <svg class="star" data-value="5" viewBox="0 0 24 24">
-            <path d="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z"/>
-        </svg>
+                </form>
     </div>
 
-    <br>
-    <button type="submit">Add Movie</button>
-</form>
+    <div id="movieList">
+        <h3>Movie List</h3>
+        <div id="displayArea"></div>
+    </div>
 
-<h2>Movie List</h2>
-<div id="movieList"></div>
+    <script>
+        const movieForm = document.getElementById('movieForm');
+        const displayArea = document.getElementById('displayArea');
 
-</div>
+        // Load existing data on page refresh
+        window.onload = () => {
+            displayMovies();
+        };
 
-<script>
-let selectedRating = 0;
-const stars = document.querySelectorAll(".star");
+        movieForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-stars.forEach(star => {
+            // Capture form data
+            const title = document.getElementById('title').value;
+            const genre = document.getElementById('genre').value;
+            const rating = document.querySelector('input[name="rating"]:checked')?.value || 0;
 
-    star.addEventListener("mouseover", function() {
-        const val = this.getAttribute("data-value");
-        stars.forEach(s => s.classList.remove("hovered"));
-        for (let i = 0; i < val; i++) {
-            stars[i].classList.add("hovered");
+            // Create JS Object structure
+            const movieEntry = {
+                title: title,
+                genre: genre,
+                rating: parseInt(rating),
+                dateAdded: new Date().toLocaleDateString()
+            };
+
+            // Retrieve existing data or initialize empty array
+            let movies = JSON.parse(localStorage.getItem('movies')) || [];
+            
+            // Push new object and stringify for localStorage
+            movies.push(movieEntry);
+            localStorage.setItem('movies', JSON.stringify(movies));
+
+            // Reset form and refresh list
+            movieForm.reset();
+            displayMovies();
+        });
+
+        function displayMovies() {
+            const movies = JSON.parse(localStorage.getItem('movies')) || [];
+            displayArea.innerHTML = '';
+
+            movies.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                
+                // Create star string based on rating
+                let starDisplay = '';
+                for(let i = 1; i <= 5; i++) {
+                    starDisplay += (i <= movie.rating) ? '★' : '☆';
+                }
+
+                card.innerHTML = `
+                    <strong>${movie.title}</strong> (${movie.genre})<br>
+                    <span class="rated-stars">${starDisplay}</span>
+                `;
+                displayArea.appendChild(card);
+            });
         }
-    });
-
-    star.addEventListener("mouseout", function() {
-        stars.forEach(s => s.classList.remove("hovered"));
-    });
-
-    star.addEventListener("click", function() {
-        selectedRating = this.getAttribute("data-value");
-        stars.forEach(s => s.classList.remove("selected"));
-        for (let i = 0; i < selectedRating; i++) {
-            stars[i].classList.add("selected");
-        }
-    });
-});
-
-document.getElementById("movieForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    const title = document.getElementById("title").value;
-    const genre = document.getElementById("genre").value;
-
-    const movie = {
-        title: title,
-        genre: genre,
-        rating: selectedRating
-    };
-
-    let movies = JSON.parse(localStorage.getItem("movies")) || [];
-    movies.push(movie);
-    localStorage.setItem("movies", JSON.stringify(movies));
-
-    displayMovies();
-    this.reset();
-    selectedRating = 0;
-    stars.forEach(s => s.classList.remove("selected"));
-});
-
-function displayMovies() {
-    const movieList = document.getElementById("movieList");
-    movieList.innerHTML = "";
-
-    let movies = JSON.parse(localStorage.getItem("movies")) || [];
-
-    movies.forEach(movie => {
-        const div = document.createElement("div");
-        div.classList.add("movie-card");
-
-        let starsDisplay = "⭐".repeat(movie.rating);
-
-        div.innerHTML = `
-            <strong>${movie.title}</strong><br>
-            Genre: ${movie.genre}<br>
-            Rating: ${starsDisplay}
-        `;
-
-        movieList.appendChild(div);
-    });
-}
-
-displayMovies();
-</script>
-
+    </script>
 </body>
 </html>
