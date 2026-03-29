@@ -125,10 +125,37 @@ __Z-index value 1__: The element will be at the bottom
     **ANSWER:**
     The different position values determine how an element sits on the page and how it reacts to other elements. 
 
-    __Static__: The default. 
+    __Static__: The default. Elements will follow the normal flow of the page and stay where they are put in the HTML. 
+
+    __Relative__: Element stays in normal flow, but you can move it using top/bottom/right/left without affecting the elements around it. 
+
+    __Absolute__: Element is removed from the normal flow. It positions itself relative to the whole page and other elements act like it's not there. 
+
+    __Fixed__: Element is stayed stuck to your browser window. 
 
     b. How does absolute positioning depend on its parent element?
 
+    **ANSWER:**
+    Absolute positioning looks for a parent. If a parent element has a position of ``relative``, ``absolute``, or ``fixed``, the child element will stay inside that parent's boundaries when you give it coordinates. 
+
+    If no parents are there, the element will just use the entire webpage as its reference point. 
+
     c. How do you differentiate sticky from fixed (you can research on sticky)?
 
+    While both can stay visible when scrolling, they behave differently depending on the scroll position. 
+
+    __Fixed__: It is always stuck to the screen from the very start. It doesn't care about its containers and stays in the same spot no matter where you are on the page. 
+
+    __Sticky__: It acts like relative positioning until you scroll past it. Once it hits a certain point (like the top of the screen), it sticks there, but only within its parent container. Once you scroll past that parent container, the element disappears with it. 
+
+
     d. If you were designing a webpage for a school event, how might you use positioning to highlight important information? Please give concrete examples.
+
+    **ANSWER:**
+    Positioning helps make sure the most important details don't get lost as the user explores the site. 
+
+    __Example 1 (Fixed)__: I would use the fixed position for a "Register Now" button at the bottom of the screen so students can sign up instantly no matter how far down they scroll. 
+
+    __Example 2 (Absolute)__: I would use the absolute postion to place a "sold Out" or "New" badge diagonally over the corner of an event poster image to catch the eye. 
+
+    __Example 3 (Sticky)__: I would use the sticky position for event schedule headers (like "Day 1" or "Day 2" so they stay at the top of the screen while the user reads through the activities for that specific day. 
