@@ -158,4 +158,8 @@ __Z-index value 1__: The element will be at the bottom
 
     __Example 2 (Absolute)__: I would use the absolute postion to place a "sold Out" or "New" badge diagonally over the corner of an event poster image to catch the eye. 
 
+<<<<<<< HEAD
     __Example 3 (Sticky)__: I would use the sticky position for event schedule headers (like "Day 1" or "Day 2" so they stay at the top of the screen while the user reads through the activities for that specific day. 
+=======
+    __Example 3 (Sticky)__: I would use the sticky position for event schedule headers (like "Day 1" or "Day 2" so they stay at the top of the screen while the user reads through the activities for that specific day. 
+>>>>>>> e4eb921f9ce10d5e2c9cccdf6aaa9d618b3d5d9b
